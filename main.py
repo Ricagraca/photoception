@@ -1,7 +1,7 @@
-import math
 
 import cv2
-import numpy as np
+import imageio
+import scipy as scipy
 
 from CompareAverage import CompareAverage
 from Mapper import Mapper
@@ -15,6 +15,9 @@ if __name__ == '__main__':
     print(height, width)
     print(factor)
 
+    im = imageio.imread('D:rickastley.jpg', pilmode='RGB')
+    image_ok = im
+
     ca = CompareAverage()
 
     # Picture here
@@ -26,10 +29,11 @@ if __name__ == '__main__':
 
     counter = 0
     limit = 1000000000
+    skip = 100
     while success and counter < limit:
         success, img = vidcap.read()
-        m.check_image(img)
-        print('Read a new frame: ', success)
+        if counter % skip == 0:
+            m.check_image(img)
         counter += 1
 
     # Create image
