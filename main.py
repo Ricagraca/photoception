@@ -18,14 +18,14 @@ if __name__ == '__main__':
     ca = CompareAverage()
 
     # Picture here
-    si = ScanImage(image_ok, CompareAverage())
+    si = ScanImage(image_ok, CompareAverage(), factor, factor)
     print(len(image_ok), len(image_ok[0])) # 360 640
     reduced_image = si.calculate()
     print(len(reduced_image), len(reduced_image[0])) # 36 64
     m = Mapper(reduced_image, ca)
 
     counter = 0
-    limit = 10
+    limit = 1000000000
     while success and counter < limit:
         success, img = vidcap.read()
         m.check_image(img)
@@ -38,13 +38,13 @@ if __name__ == '__main__':
     width_square = width//factor
     for pos in m.map:
         img, length = m.map[pos]
-        si = ScanImage(img, CompareAverage())
+        si = ScanImage(img, CompareAverage(), 64, 36)
         reduced_image = si.calculate()
         print(len(reduced_image), len(reduced_image[0])) # 36 64
         # write image
         # Need to write line by line
         #
-        for f in range(height_square):
+        for f in range(factor):
             print(pos)
             xi = pos[0] * factor + f
             y1 = pos[1] * factor
