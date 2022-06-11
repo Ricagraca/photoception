@@ -14,11 +14,12 @@ class CompressImage:
         self.width = len(image[0])
         self.height = len(image)
         self.image = image
-        self.factorx = factorx 
-        self.factory = factory 
+        self.factorx = factorx
+        self.factory = factory
 
         # For now, assert that the factor must divide the width/height
-        assert self.width % factorx == self.height % self.factory == 0
+        # print(self.width, self.height, factorx, factory)
+        assert (self.width % factorx) == (self.height % self.factory) == 0
 
         self.compare_algorithm = compare_algorithm
 
