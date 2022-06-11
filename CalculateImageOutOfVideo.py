@@ -44,14 +44,19 @@ class CalculateImageOutOfVideo:
             self.get_frames()
 
 
-        compressed_image = CompressImage(image, compare_algorithm, factory, factorx).calculate()
-        block_map = BlockMapper(compressed_image, compare_algorithm)
+        # Compress image with factory and factorx
+        reduced_image = CompressImage(image, compare_algorithm, factory, factorx).calculate()
+        block_map = BlockMapper(reduced_image, compare_algorithm)
         
         # Calculate map for image
         print('Calculating Map')
         for frame in self.selected_frames:
             block_map.check_image(frame)
             
+        self.create_image_out_of_mapping(image, block_map, compare_algorithm, factory, factorx)
+
+    def create_image_out_of_mapping(self, image, block_map, compare_algorithm, factory, factorx):
+
         height = len(image)
         width = len(image[0])
 
@@ -62,18 +67,18 @@ class CalculateImageOutOfVideo:
         print('Creating image out of map')
         for pos in block_map.map:
             img, length = block_map.map[pos]
-            compressed_image = CompressImage(img, compare_algorithm, factorx, factory)
-            reduced_image = compressed_image.calculate()
-            for f in range(factorx):
-                x = pos[0] * factorx + f
-                y1 = pos[1] * factory
-                y2 = y1 + len(reduced_image[f])
-                print(x,y1,y2, factorx, factory)
-                image[x][y1:y2] = reduced_image[f]
+            img_height, img_width = len(img), len(img[0])
+            block_height, block_width = img_width//factorx, img_height//factory
+            reduced_image = CompressImage(img, compare_algorithm, block_height, block_width).calculate()
+            for f in range(factory):
+                y = pos[0] * factory + f
+                x1 = pos[1] * factorx
+                x2 = x1 + len(reduced_image[f])
+                # print(y,x1,x2, factorx, factory)
+                image[y][x1:x2] = reduced_image[f]
 
         self.calculated_image = image
 
-
     def save_image(self, file_name):
-        assert self.calculate_image != None
-        cv2.imwrite(file_name, self.calculate_image)  # save frame as JPEG file
+        # assert self.calculated_image != None
+        cv2.imwrite(file_name, self.calculated_image)  # save frame as JPEG file

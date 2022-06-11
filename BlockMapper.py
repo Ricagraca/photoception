@@ -15,8 +15,8 @@ class BlockMapper:
 
     """
         Given an image x,
-        map a position of a block from compressed_image to that image 
-        if the difference is lower than the current
+        map the position of the blocks from compressed_image 
+        to that image if the difference is lower than the current
     """
 
     def check_image(self, x):
