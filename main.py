@@ -1,12 +1,26 @@
 
+from email.mime import image
 import cv2
 import imageio
 import scipy as scipy
 
+from CalculateImageOutOfVideo import CalculateImageOutOfVideo
 from CompareAverage import CompareAverage
-from Mapper import Mapper
-from ScanImage import ScanImage
 
+IMAGE_FOLDER = 'image'
+VIDEO_FOLDER = 'video'
+
+
+if __name__ == '__main__':
+
+    image_calculator = CalculateImageOutOfVideo(VIDEO_FOLDER + "video.mp4",100,100)
+    image = imageio.imread(IMAGE_FOLDER + 'image.jpg', pilmode='RGB')
+    image_calculator.calculate_image(image,CompareAverage(),10,10)
+    image_calculator.save_image('saved_image.jpg')
+
+
+
+"""
 if __name__ == '__main__':
     vidcap = cv2.VideoCapture('D:\\Youtube\\v1.mp4')
     success,image_ok = vidcap.read()
@@ -21,11 +35,11 @@ if __name__ == '__main__':
     ca = CompareAverage()
 
     # Picture here
-    si = ScanImage(image_ok, CompareAverage(), factor, factor)
+    si = CompressImage(image_ok, CompareAverage(), factor, factor)
     print(len(image_ok), len(image_ok[0])) # 360 640
     reduced_image = si.calculate()
     print(len(reduced_image), len(reduced_image[0])) # 36 64
-    m = Mapper(reduced_image, ca)
+    m = BlockMapper(reduced_image, ca)
 
     counter = 0
     limit = 1000000000
@@ -42,7 +56,7 @@ if __name__ == '__main__':
     width_square = width//factor
     for pos in m.map:
         img, length = m.map[pos]
-        si = ScanImage(img, CompareAverage(), 64, 36)
+        si = CompressImage(img, CompareAverage(), 64, 36)
         reduced_image = si.calculate()
         print(len(reduced_image), len(reduced_image[0])) # 36 64
         # write image
@@ -58,3 +72,4 @@ if __name__ == '__main__':
 
     cv2.imwrite("frame.jpg", image_ok)  # save frame as JPEG file
 
+"""
