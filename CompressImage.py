@@ -28,8 +28,8 @@ class CompressImage:
         Calculate the compressed image
     """
     def calculate(self):
-        width_resized = self.width // self.factorx
-        height_resized = self.height // self.factory
+        width_resized = int(math.ceil(self.width / self.factorx))
+        height_resized = int(math.ceil(self.height / self.factory))
 
         values = []
         for h in range(height_resized):

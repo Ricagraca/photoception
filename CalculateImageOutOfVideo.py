@@ -3,6 +3,7 @@ from CompressImage import CompressImage
 from BlockMapper import BlockMapper
 import cv2
 import numpy as np
+import math
 
 
 def number_of_frames(video_path):
@@ -73,13 +74,14 @@ class CalculateImageOutOfVideo:
 
         # Create Image out of mapping
         print('Creating image out of map')
+        print(factorx, factory)
         for pos in block_map.map:
             img, length = block_map.map[pos]
             img_height, img_width = len(img), len(img[0])
-            block_height, block_width = img_width//factorx, img_height//factory
-            reduced_image = CompressImage(img, compare_algorithm, block_height, block_width).calculate()
-            for f in range(factory):
-                y = pos[0] * factory + f
+            block_height, block_width = int(math.ceil(img_height/factory)), int(math.ceil(img_width/factorx))
+            reduced_image = CompressImage(img, compare_algorithm, block_width, block_height).calculate()
+            for f in range(len(reduced_image)):
+                y = min(pos[0] * factory + f, height-1)
                 x1 = pos[1] * factorx
                 x2 = min(x1 + len(reduced_image[f]),len(image[y]))
                 # print(y,x1,x2, factorx, factory)
