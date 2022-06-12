@@ -5,16 +5,23 @@ import cv2
 import numpy as np
 
 
+def number_of_frames(video_path):
+    vidcap = cv2.VideoCapture(video_path)
+    length = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
+    return length
+
+    
 class CalculateImageOutOfVideo:
 
     """
         Function that tells how similar two images are
         The bigger the value, the bigger the difference
     """
-    def __init__(self, video_path, number, skip):
+    def __init__(self, video_path, number, well_divided=False, skip=1):
         self.video_path = video_path
         self.number = number
-        self.skip = skip
+        print(number_of_frames(video_path))
+        self.skip = number_of_frames(video_path)//number if well_divided else skip
 
     """
         From video, return a number of frames while
@@ -28,6 +35,7 @@ class CalculateImageOutOfVideo:
         selected_frames = []
         success = True
 
+        print("Getting video frames")
         while success and counter//self.skip < self.number:
             success, img = vidcap.read()
             if counter % self.skip == 0:
@@ -73,12 +81,13 @@ class CalculateImageOutOfVideo:
             for f in range(factory):
                 y = pos[0] * factory + f
                 x1 = pos[1] * factorx
-                x2 = x1 + len(reduced_image[f])
+                x2 = min(x1 + len(reduced_image[f]),len(image[y]))
                 # print(y,x1,x2, factorx, factory)
-                image[y][x1:x2] = reduced_image[f]
+                image[y][x1:x2] = reduced_image[f][:x2-x1]
 
         self.calculated_image = image
 
     def save_image(self, file_name):
         # assert self.calculated_image != None
+        print("Saved image in " + file_name)
         cv2.imwrite(file_name, self.calculated_image)  # save frame as JPEG file
