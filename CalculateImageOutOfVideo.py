@@ -21,6 +21,7 @@ class CalculateImageOutOfVideo:
     def __init__(self, video_path, number, well_divided=False, skip=1):
         self.video_path = video_path
         self.number = number
+        self.height, self.width = None, None
         print(number_of_frames(video_path))
         self.skip = number_of_frames(video_path)//number if well_divided else skip
 
@@ -39,6 +40,7 @@ class CalculateImageOutOfVideo:
         print("Getting video frames")
         while success and counter//self.skip < self.number:
             success, img = vidcap.read()
+            self.height, self.width =  len(img),  len(img[0])
             if counter % self.skip == 0:
                 selected_frames.append(img)
             counter += 1
@@ -52,7 +54,6 @@ class CalculateImageOutOfVideo:
         if not hasattr(self, 'selected_frames') or len(self.selected_frames) < 0:
             self.get_frames()
 
-
         # Compress image with factory and factorx
         reduced_image = CompressImage(image, compare_algorithm, factory, factorx).calculate()
         block_map = BlockMapper(reduced_image, compare_algorithm)
@@ -62,7 +63,8 @@ class CalculateImageOutOfVideo:
         for frame in self.selected_frames:
             block_map.check_image(frame)
             
-        self.create_image_out_of_mapping(image, block_map, compare_algorithm, factory, factorx)
+        return self.create_image_out_of_mapping(image, block_map, compare_algorithm, factory, factorx)
+
 
     def create_image_out_of_mapping(self, image, block_map, compare_algorithm, factory, factorx):
 
@@ -74,7 +76,7 @@ class CalculateImageOutOfVideo:
 
         # Create Image out of mapping
         print('Creating image out of map')
-        print(factorx, factory)
+        print(factorx, factory, len(block_map.map))
         for pos in block_map.map:
             img, length = block_map.map[pos]
             img_height, img_width = len(img), len(img[0])
@@ -87,7 +89,9 @@ class CalculateImageOutOfVideo:
                 # print(y,x1,x2, factorx, factory)
                 image[y][x1:x2] = reduced_image[f][:x2-x1]
 
+        print("Created image successfully")
         self.calculated_image = image
+        return image
 
     def save_image(self, file_name):
         # assert self.calculated_image != None
