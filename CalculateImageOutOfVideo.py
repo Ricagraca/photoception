@@ -11,6 +11,13 @@ def number_of_frames(video_path):
     length = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
     return length
 
+
+def video_porportion(video_path):
+    vidcap = cv2.VideoCapture(video_path)
+    height = int(vidcap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    width = int(vidcap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    return height, width
+
     
 class CalculateImageOutOfVideo:
 

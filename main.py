@@ -6,7 +6,7 @@ import os.path
 import cv2
 from os import path
 
-from CalculateImageOutOfVideo import CalculateImageOutOfVideo, number_of_frames
+from CalculateImageOutOfVideo import CalculateImageOutOfVideo, number_of_frames, video_porportion
 from CompareAverage import CompareAverage
 
 IMAGE_FOLDER = 'image/'
@@ -65,7 +65,11 @@ def video_out_of_video(video1, video2, frame_number, number=10, factorx=40, fact
     success = True
 
     # Create output video writer
-    h, w = image_calculator.height, image_calculator.width
+    h, w = video_porportion(video1)
+    
+    if h is None or w is None:
+        raise ValueError("height or width are None")
+
     fps = 2
     fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     writer = cv2.VideoWriter(file_path, fourcc, fps, (w, h))
