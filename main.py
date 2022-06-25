@@ -6,7 +6,7 @@ import os.path
 import cv2
 from os import path
 
-from CalculateImageOutOfVideo import CalculateImageOutOfVideo
+from CalculateImageOutOfVideo import CalculateImageOutOfVideo, number_of_frames
 from CompareAverage import CompareAverage
 
 IMAGE_FOLDER = 'image/'
@@ -54,7 +54,7 @@ def create_several(image_file, video_file, frame_number, number_images):
         image_calculator.save_image(saving_directory + saved_file_name)
 
 
-def video_out_of_video(video1, video2, frame_number, number=100, factorx=40, factory=40, file_path="output.mp4", skip=None):
+def video_out_of_video(video1, video2, frame_number, number=10, factorx=40, factory=40, file_path="output.mp4", skip=None):
 
     # Video input 
     image_calculator =  CalculateImageOutOfVideo(video1, frame_number, well_divided=True) 
@@ -70,7 +70,7 @@ def video_out_of_video(video1, video2, frame_number, number=100, factorx=40, fac
     fourcc = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     writer = cv2.VideoWriter(file_path, fourcc, fps, (w, h))
 
-    skip = 1 if skip is None else skip   
+    skip = (number_of_frames(video_path=video2)//number) if skip is None else skip   
 
     print("Creating video")
     while success and counter//skip < number:
