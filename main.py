@@ -5,8 +5,8 @@ import os.path
 import cv2
 from os import path
 
-from CalculateImageOutOfVideo import CalculateImageOutOfVideo, number_of_frames, video_porportion
-from CompareAverage import CompareAverage
+from src.CalculateImageOutOfVideo import CalculateImageOutOfVideo, number_of_frames, video_porportion
+from src.CompareAverage import CompareAverage
 
 IMAGE_FOLDER = 'image/'
 VIDEO_FOLDER = 'video/'
@@ -28,4 +28,6 @@ if __name__ == "__main__":
     create_image(
         image_file="image/sheldon.jpeg", 
         video_file="video/pickle_rick.mp4", 
-        frame_number=5)
+        frame_number=5,
+        factorx=10,
+        factory=10)
