@@ -19,5 +19,5 @@ Photoception allows to convert a video into a photo by:
 
 ### Example 2
 
-![input sheldon](image/dwight.jpeg)
-![output dwight](saved/saved_image/dwight.jpeg)
+![input sheldon](image/dwight.jpg)
+![output dwight](saved/saved_image/dwight.jpg)
