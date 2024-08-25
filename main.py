@@ -35,6 +35,7 @@ if __name__ == "__main__":
     create_image(
         image_file="image/dwight.jpg", 
         video_file="video/pickle_rick.mp4", 
-        frame_number=5,
-        factorx=10,
-        factory=10)
+        frame_number=20,
+        factorx=5,
+        factory=5,
+        output="image/dwight_frame10.jpg")
