@@ -33,7 +33,7 @@ def create_image(image_file, image_calculator=None, frame_number=100, video_file
 
 if __name__ == "__main__":
     create_image(
-        image_file="image/sheldon.jpeg", 
+        image_file="image/dwight.jpg", 
         video_file="video/pickle_rick.mp4", 
         frame_number=5,
         factorx=10,
