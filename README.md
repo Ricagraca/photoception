@@ -28,6 +28,8 @@ From a rick & morty small youtube video:
 
 ### Example 2
 
+You can refine more and more to look like the original by adding more frames 
+and also by having a smaller factor (i.e., size of frames).
 From a rick & morty small youtube video:
 
 ![input sheldon](image/dwight.jpg)
