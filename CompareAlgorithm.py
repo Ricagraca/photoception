@@ -1,7 +1,4 @@
-import zope.interface
-
-
-class CompareAlgorithm(zope.interface.Interface):
+class CompareAlgorithm():
 
     """
         Function that tells how similar two images are

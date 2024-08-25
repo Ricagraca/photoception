@@ -31,7 +31,6 @@ class CalculateImageOutOfVideo:
         self.video_path = video_path
         self.number = number
         self.height, self.width = None, None
-        print(number_of_frames(video_path))
         self.skip = number_of_frames(video_path) // number if well_divided else skip
 
     """

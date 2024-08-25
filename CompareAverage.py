@@ -1,9 +1,7 @@
-import zope
 
 from CompareAlgorithm import CompareAlgorithm
 
 
-@zope.interface.implementer(CompareAlgorithm)
 class CompareAverage:
 
     """
