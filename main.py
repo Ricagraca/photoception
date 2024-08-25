@@ -15,12 +15,19 @@ SAVED_FOLDER = 'saved/'
 
 def create_image(image_file, image_calculator=None, frame_number=100, video_file="", factorx=10, factory=10, output=None):
     if image_calculator is None and video_file == "":
-        raise ValueError("expectted an image calculator or a video file")
+        raise ValueError("expected an image calculator or a video file")
 
+    # Read image
+    image = imageio.imread(image_file, pilmode='RGB')
+
+    # Create image calculator instance
     image_calculator = CalculateImageOutOfVideo(video_file, frame_number, well_divided=True) if (
                 image_calculator is None) else image_calculator
-    image = imageio.imread(image_file, pilmode='RGB')
+   
+    # Convert image to image with frames out of the video
     image_calculator.calculate_image(image, CompareAverage(), factorx, factory)
+
+    # Save created image
     image_calculator.save_image(SAVED_FOLDER + 'saved_' + (output if output is not None else image_file))
     return image_calculator
 
